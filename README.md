@@ -6,7 +6,7 @@ Create shareable AI agent skill registries for [Nosey](https://github.com/rigerc
 
 ## Skill catalog
 
-Registry: rigerc/my-skills · 12 skills.
+Registry: rigerc/my-skills · 13 skills.
 
 Generated from [skills-manifest.json](skills-manifest.json) and [skills-map.json](skills-map.json). Edit those sources or skill frontmatter, then regenerate this section.
 
@@ -51,6 +51,12 @@ Available; no automatic recommendation.
 ### [knap-skill](skills/knap-skill/SKILL.md)
 
 Write, explain, validate, and render Knap templates for Markdown or text output. Use for Knap variables, filters, conditions, loops, local assignments, CLI rendering, or batch generation; do not apply to unrelated Jinja, Liquid, or Mustache templates.
+
+Available; no automatic recommendation.
+
+### [noctalia-plugin-development](skills/noctalia-plugin-development/SKILL.md)
+
+Develop, maintain, debug, test, and publish Noctalia v5\+ native Wayland shell plugins using plugin.toml manifests and isolated Luau entry scripts. Use for plugin widgets, panels, services, launcher providers, control-center shortcuts, desktop widgets, layer surfaces, declarative ui.\* trees, scripting APIs, cross-entry state, IPC, plugin API compatibility, or Noctalia plugin reviews. Distinguish native Luau plugins from older QML/Quickshell extensions.
 
 Available; no automatic recommendation.
 
