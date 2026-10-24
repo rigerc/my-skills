@@ -2,10 +2,160 @@
   "$schema": "https://raw.githubusercontent.com/rigerc/nosey/main/schemas/registry/skills-map.schema.json",
   "schemaVersion": 2,
   "registryId": "rigerc/my-skills",
-  "alwaysRecommend": [],
+  "alwaysRecommend": [
+    "rigerc/my-skills/github-project-manager"
+  ],
   "externalSkills": [],
-  "technologies": [],
-  "technologySkills": [],
+  "technologies": [
+    {
+      "id": "agnix",
+      "name": "agnix",
+      "detect": {
+        "packages": [
+          "agnix"
+        ],
+        "pythonPackages": [
+          "agnix"
+        ],
+        "rustCrates": [
+          "agnix-cli"
+        ],
+        "configFiles": [
+          ".agnix.toml"
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/agnix"
+      ]
+    },
+    {
+      "id": "gum",
+      "name": "Charmbracelet Gum",
+      "detect": {
+        "goModules": [
+          "github.com/charmbracelet/gum"
+        ],
+        "configFileContent": {
+          "sourceExtensions": [
+            ".sh",
+            ".bash",
+            ".zsh"
+          ],
+          "stripComments": "hash",
+          "patterns": [
+            {
+              "source": "^[ \\t]*(?:[A-Za-z_][A-Za-z0-9_]*=\\$\\([ \\t]*)?gum[ \\t]+(?:choose|confirm|input|filter|file|write|spin|style|format|join|pager|table|log)\\b",
+              "flags": "m"
+            }
+          ]
+        }
+      },
+      "skills": [
+        "rigerc/my-skills/gum-cli"
+      ]
+    },
+    {
+      "id": "ink-testing-library",
+      "name": "Ink Testing Library",
+      "detect": {
+        "packages": [
+          "ink-testing-library"
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/ink-testing-library"
+      ]
+    },
+    {
+      "id": "knap",
+      "name": "Knap",
+      "detect": {
+        "packages": [
+          "knap"
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/knap-skill"
+      ]
+    },
+    {
+      "id": "mcp-serena",
+      "name": "Serena MCP",
+      "detect": {
+        "mcpServers": [
+          {
+            "pythonPackages": [
+              "serena-agent"
+            ]
+          }
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/serena-usage"
+      ]
+    },
+    {
+      "id": "mcp-ue4ss-bridge",
+      "name": "UE4SS Bridge MCP",
+      "detect": {
+        "mcpServers": [
+          {
+            "pythonPackages": [
+              "ue4ss-bridge"
+            ]
+          }
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/ue4ss-bridge"
+      ]
+    },
+    {
+      "id": "vhs",
+      "name": "Charmbracelet VHS",
+      "detect": {
+        "fileExtensions": [
+          ".tape"
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/vhs-cli"
+      ]
+    },
+    {
+      "id": "readme",
+      "name": "Repository README",
+      "detect": {
+        "configFiles": [
+          "README.md",
+          "readme.md"
+        ]
+      },
+      "skills": [
+        "rigerc/my-skills/readme-crafter-skill"
+      ]
+    }
+  ],
+  "technologySkills": [
+    {
+      "technologyId": "ink",
+      "skills": [
+        "rigerc/my-skills/ink"
+      ]
+    },
+    {
+      "technologyId": "just",
+      "skills": [
+        "rigerc/my-skills/justfile-expert"
+      ]
+    },
+    {
+      "technologyId": "vitest",
+      "skills": [
+        "rigerc/my-skills/vitest-testing"
+      ]
+    }
+  ],
   "combinations": [],
   "combinationSkills": [],
   "frontendBonusSkills": [],
