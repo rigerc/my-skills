@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knap Templates"
+  short_description: "Write and validate Knap templates"
+  default_prompt: "Use $knap to create and validate a Knap template for my data."
