@@ -1,0 +1,8 @@
+# Git pathspecs consumed by actions-template-sync, not .gitignore patterns.
+# Registry-owned content and licensing stay in each derived repository.
+skills/**
+skills-map.json
+skills-manifest.json
+README.md
+LICENSE
+AGENTS.md

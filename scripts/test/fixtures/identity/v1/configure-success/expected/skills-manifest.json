@@ -1,0 +1,48 @@
+{
+  "$schema": [
+    "custom",
+    "manifest",
+    2
+  ],
+  "schemaVersion": 1,
+  "registryId": "acme/team-skills",
+  "skills": [
+    {
+      "id": "acme/team-skills/nested/release",
+      "name": "Nested Release",
+      "path": "skills/nested/release/SKILL.md",
+      "description": "Prepares releases.",
+      "vendor": {
+        "x": 1
+      }
+    },
+    {
+      "id": "acme/team-skills/nested/tooling/lint",
+      "name": "Nested Tooling Lint",
+      "path": "skills/nested/tooling/lint/SKILL.md",
+      "description": "Checks nested tooling.",
+      "customSkill": 7,
+      "diagnostics": {
+        "nested": "preserve"
+      },
+      "__proto__": {
+        "nested": true
+      },
+      "constructor": {
+        "nested": "constructor survives"
+      }
+    }
+  ],
+  "customManifest": {
+    "keep": "exact"
+  },
+  "diagnostics": {
+    "user": "must survive"
+  },
+  "__proto__": {
+    "userMetadata": true
+  },
+  "constructor": {
+    "userMetadata": "constructor survives"
+  }
+}
