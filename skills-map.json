@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/rigerc/nosey/main/schemas/registry/skills-map.schema.json",
   "schemaVersion": 2,
-  "registryId": "example/agent-skills",
+  "registryId": "rigerc/my-skills",
   "alwaysRecommend": [],
   "externalSkills": [],
   "technologies": [],

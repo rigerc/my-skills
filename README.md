@@ -6,7 +6,7 @@ Create shareable AI agent skill registries for [Nosey](https://github.com/rigerc
 
 ## Skill catalog
 
-Registry: example/agent-skills · 0 skills.
+Registry: rigerc/my-skills · 0 skills.
 
 Generated from [skills-manifest.json](skills-manifest.json) and [skills-map.json](skills-map.json). Edit those sources or skill frontmatter, then regenerate this section.
 
