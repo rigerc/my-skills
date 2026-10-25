@@ -6,7 +6,7 @@ Create shareable AI agent skill registries for [Nosey](https://github.com/rigerc
 
 ## Skill catalog
 
-Registry: rigerc/my-skills · 13 skills.
+Registry: rigerc/my-skills · 14 skills.
 
 Generated from [skills-manifest.json](skills-manifest.json) and [skills-map.json](skills-map.json). Edit those sources or skill frontmatter, then regenerate this section.
 
@@ -59,6 +59,14 @@ Available; no automatic recommendation.
 Develop, maintain, debug, test, and publish Noctalia v5\+ native Wayland shell plugins using plugin.toml manifests and isolated Luau entry scripts. Use for plugin widgets, panels, services, launcher providers, control-center shortcuts, desktop widgets, layer surfaces, declarative ui.\* trees, scripting APIs, cross-entry state, IPC, plugin API compatibility, or Noctalia plugin reviews. Distinguish native Luau plugins from older QML/Quickshell extensions.
 
 Available; no automatic recommendation.
+
+### [octokit-js](skills/octokit-js/SKILL.md)
+
+Help build, review, and debug JavaScript or TypeScript integrations with GitHub using Octokit.js. Use for GitHub REST and GraphQL requests, pagination, authentication, GitHub Apps, webhook verification, permissions, and safe issue or pull-request automation.
+
+**Recommended when:**
+
+- Octokit.js is detected \(npm packages: @octokit/core, @octokit/rest, octokit\)
 
 ### [readme-crafter-skill](skills/readme-crafter-skill/SKILL.md)
 

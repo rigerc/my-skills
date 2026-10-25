@@ -132,6 +132,17 @@
       }
     },
     {
+      "id": "octokit-js",
+      "name": "Octokit.js",
+      "detect": {
+        "packages": [
+          "@octokit/core",
+          "@octokit/rest",
+          "octokit"
+        ]
+      }
+    },
+    {
       "id": "vhs",
       "name": "Charmbracelet VHS",
       "detect": {
@@ -198,6 +209,12 @@
       "technologyId": "noctalia-plugins",
       "skills": [
         "rigerc/my-skills/noctalia-plugin-development"
+      ]
+    },
+    {
+      "technologyId": "octokit-js",
+      "skills": [
+        "rigerc/my-skills/octokit-js"
       ]
     },
     {

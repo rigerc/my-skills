@@ -52,6 +52,12 @@
       "description": "Develop, maintain, debug, test, and publish Noctalia v5+ native Wayland shell plugins using plugin.toml manifests and isolated Luau entry scripts. Use for plugin widgets, panels, services, launcher providers, control-center shortcuts, desktop widgets, layer surfaces, declarative ui.* trees, scripting APIs, cross-entry state, IPC, plugin API compatibility, or Noctalia plugin reviews. Distinguish native Luau plugins from older QML/Quickshell extensions."
     },
     {
+      "id": "rigerc/my-skills/octokit-js",
+      "name": "octokit-js",
+      "path": "skills/octokit-js/SKILL.md",
+      "description": "Help build, review, and debug JavaScript or TypeScript integrations with GitHub using Octokit.js. Use for GitHub REST and GraphQL requests, pagination, authentication, GitHub Apps, webhook verification, permissions, and safe issue or pull-request automation."
+    },
+    {
       "id": "rigerc/my-skills/readme-crafter-skill",
       "name": "readme-crafter-skill",
       "path": "skills/readme-crafter-skill/SKILL.md",
