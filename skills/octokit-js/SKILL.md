@@ -88,6 +88,16 @@ For GitHub Apps, use `App` from `octokit` and an installation-specific client (`
 
 These examples are **read-only** and make API calls only when explicitly run in a project with its dependency installed. Edit `owner` and `repo` to match the intended target. For private repositories and GraphQL, provide `GITHUB_TOKEN` or `GH_TOKEN` through your runtime's secret management.
 
+## Reference guides
+
+- [`references/authentication.md`](references/authentication.md) — credentials, permissions, and GitHub Actions authentication.
+- [`references/rest.md`](references/rest.md) — REST endpoints, pagination, issues, pull requests, and error handling.
+- [`references/graphql.md`](references/graphql.md) — GraphQL queries, variables, and cursor pagination.
+- [`references/apps-webhooks.md`](references/apps-webhooks.md) — GitHub App installation clients and verified webhooks.
+- [`references/troubleshooting.md`](references/troubleshooting.md) — common failures and official upstream resources.
+
+These guides contain documentation and illustrative snippets only; they do not add runtime files or dependencies.
+
 ## Official references
 
 - [Octokit.js](https://github.com/octokit/octokit.js)
