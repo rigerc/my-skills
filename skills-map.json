@@ -2,10 +2,223 @@
   "$schema": "https://raw.githubusercontent.com/rigerc/nosey/main/schemas/registry/skills-map.schema.json",
   "schemaVersion": 2,
   "registryId": "rigerc/my-skills",
-  "alwaysRecommend": [],
+  "alwaysRecommend": [
+    "rigerc/my-skills/github-project-manager"
+  ],
   "externalSkills": [],
-  "technologies": [],
-  "technologySkills": [],
+  "technologies": [
+    {
+      "id": "agnix",
+      "name": "agnix",
+      "detect": {
+        "packages": [
+          "agnix"
+        ],
+        "pythonPackages": [
+          "agnix"
+        ],
+        "rustCrates": [
+          "agnix-cli"
+        ],
+        "configFiles": [
+          ".agnix.toml"
+        ]
+      }
+    },
+    {
+      "id": "gum",
+      "name": "Charmbracelet Gum",
+      "detect": {
+        "configFileContent": {
+          "files": [
+            "Justfile",
+            "justfile",
+            ".justfile"
+          ],
+          "sourceExtensions": [
+            ".sh",
+            ".bash",
+            ".zsh",
+            ".fish"
+          ],
+          "patterns": [
+            {
+              "source": "(^|[;&|()\\s])gum\\s+(choose|confirm|file|filter|format|input|join|pager|spin|style|table|write|log|version-check)\\b",
+              "flags": "m"
+            }
+          ],
+          "stripComments": "hash"
+        }
+      }
+    },
+    {
+      "id": "knap",
+      "name": "Knap",
+      "detect": {
+        "packages": [
+          "knap"
+        ]
+      }
+    },
+    {
+      "id": "mcp-serena",
+      "name": "Serena MCP",
+      "detect": {
+        "mcpServers": [
+          {
+            "pythonPackages": [
+              "serena-agent"
+            ]
+          },
+          {
+            "serverNames": [
+              "serena"
+            ],
+            "configFiles": [
+              ".mcp.json",
+              ".cursor/mcp.json",
+              ".vscode/mcp.json",
+              ".codex/config.toml"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "mcp-ue4ss-bridge",
+      "name": "UE4SS Bridge MCP",
+      "detect": {
+        "mcpServers": [
+          {
+            "pythonPackages": [
+              "ue4ss-bridge"
+            ]
+          },
+          {
+            "serverNames": [
+              "ue4ss-bridge"
+            ],
+            "configFiles": [
+              ".mcp.json",
+              ".cursor/mcp.json",
+              ".vscode/mcp.json",
+              ".codex/config.toml"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "noctalia-plugins",
+      "name": "Noctalia native Luau plugins",
+      "detect": {
+        "configFileContent": {
+          "files": [
+            "plugin.toml"
+          ],
+          "patterns": [
+            {
+              "source": "^\\s*plugin_api\\s*=\\s*[0-9]+\\b",
+              "flags": "m"
+            },
+            {
+              "source": "^\\s*entry\\s*=\\s*[\"'][^\"'\\r\\n]+\\.luau[\"']",
+              "flags": "m"
+            }
+          ],
+          "allPatterns": true,
+          "stripComments": "hash"
+        }
+      }
+    },
+    {
+      "id": "vhs",
+      "name": "Charmbracelet VHS",
+      "detect": {
+        "fileExtensions": [
+          ".tape"
+        ]
+      }
+    },
+    {
+      "id": "readme",
+      "name": "README documentation",
+      "detect": {
+        "configFiles": [
+          "README.md"
+        ]
+      }
+    }
+  ],
+  "technologySkills": [
+    {
+      "technologyId": "agnix",
+      "skills": [
+        "rigerc/my-skills/agnix"
+      ]
+    },
+    {
+      "technologyId": "gum",
+      "skills": [
+        "rigerc/my-skills/gum-cli"
+      ]
+    },
+    {
+      "technologyId": "ink",
+      "skills": [
+        "rigerc/my-skills/ink",
+        "rigerc/my-skills/ink-testing-library"
+      ]
+    },
+    {
+      "technologyId": "just",
+      "skills": [
+        "rigerc/my-skills/justfile-expert"
+      ]
+    },
+    {
+      "technologyId": "knap",
+      "skills": [
+        "rigerc/my-skills/knap-skill"
+      ]
+    },
+    {
+      "technologyId": "mcp-serena",
+      "skills": [
+        "rigerc/my-skills/serena-usage"
+      ]
+    },
+    {
+      "technologyId": "mcp-ue4ss-bridge",
+      "skills": [
+        "rigerc/my-skills/ue4ss-bridge"
+      ]
+    },
+    {
+      "technologyId": "noctalia-plugins",
+      "skills": [
+        "rigerc/my-skills/noctalia-plugin-development"
+      ]
+    },
+    {
+      "technologyId": "vhs",
+      "skills": [
+        "rigerc/my-skills/vhs-cli"
+      ]
+    },
+    {
+      "technologyId": "vitest",
+      "skills": [
+        "rigerc/my-skills/vitest-testing"
+      ]
+    },
+    {
+      "technologyId": "readme",
+      "skills": [
+        "rigerc/my-skills/readme-crafter-skill"
+      ]
+    }
+  ],
   "combinations": [],
   "combinationSkills": [],
   "frontendBonusSkills": [],
