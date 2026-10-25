@@ -31,10 +31,11 @@ This repository owns template tooling, workflows, prompts, documentation, and te
 
 ## Commands
 
-Node.js 22 is required. No `npm ci`, `npm install`, or other dependency installation is needed or permitted for template tooling. The registry requires no `package.json`, npm, `node_modules`, install, or build step. Run the Node 22 `.mjs` entry points directly; they use Node built-ins and relative modules. Each CLI rejects unsupported Node versions.
+Node.js 22 or newer is required. No `npm ci`, `npm install`, or other dependency installation is needed or permitted for template tooling. The registry requires no `package.json`, npm, `node_modules`, install, or build step. Run the `.mjs` entry points directly with Node.js 22 or newer; they use Node built-ins and relative modules. Each CLI rejects unsupported Node versions.
 
 - `node scripts/generate.mjs [--root dir] [--check]` writes or checks both generated outputs. Individual generator commands remain supported: `node scripts/generate-manifest.mjs [--root dir]` and `node scripts/generate-readme.mjs [--root dir]`.
 - `node scripts/validate-registry.mjs [--root dir] [--schemas dir]` validates against the latest Nosey schemas and normally requires network access. `--schemas` is for explicit test fixtures.
+- `node scripts/skills-map-cli.mjs <command> [options]` creates, edits, and validates `skills-map.json` without hand-editing it. Commands: `validate`, `create --registry-id owner/repo`, `show [section]`, `discover` (exact local skill IDs from a read-only manifest preview), `batch <operations.json>` (several `add`/`remove`/`set` operations as one validated write), `add`/`remove` for every map section, and `set registry-id owner/repo` (remaps local skill reference prefixes). Mutations are idempotent, apply offline parser-rule checks before every atomic write (integration references are warnings because the manifest may be stale until regeneration), and cascade association removals. Programmatic mode (default) prints readable reports and prompts only when interactive; automation mode (`--json`, `--dry-run`, non-interactive input) emits one JSON document per command with stable exit codes: 0 ok, 1 validation issues, 2 usage or I/O error, 3 schema source failure. `--interactive` walks the sections with numbered prompts, validates each change in memory, and writes atomically. `validate` fetches the same live schemas as the registry validator and fails closed; `--schemas` is for explicit test fixtures only.
 - `node scripts/configure-registry.mjs owner/repo [--root dir] [--schemas dir]` configures a cloned template.
 - `node --test` runs the Node built-in test runner.
 - `node scripts/check.mjs [--root dir] [--schemas dir]` combines generation checks, live schema validation, and tests; it does not run Agnix.
@@ -61,4 +62,4 @@ Never commit secrets or tokens. Do not run dependency installers, execute downlo
 
 ## Done criteria
 
-Before completing template work, run the relevant Node 22 tests and read-only checks, verify generated files are current, inspect the complete diff, and run `git diff --check`. Report commands and results accurately; call out network-dependent checks that could not run. Keep each change within the template repository unless a separately authorized Nosey change is assigned.
+Before completing template work, run the relevant tests and read-only checks with Node.js 22 or newer, verify generated files are current, inspect the complete diff, and run `git diff --check`. Report commands and results accurately; call out network-dependent checks that could not run. Keep each change within the template repository unless a separately authorized Nosey change is assigned.
