@@ -1,4 +1,5 @@
 ---
+name: agentsmesh-authoring
 description: Author, edit, migrate, troubleshoot, and validate AgentsMesh canonical configuration (.agentsmesh rules, hooks, commands, agents, skills, MCP servers, permissions, ignore, lessons, and agentsmesh.yaml) for multiple AI coding tools.
 ---
 

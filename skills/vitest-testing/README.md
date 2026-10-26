@@ -17,7 +17,7 @@ For agents that use another skill directory (e.g., `.claude/skills/`), follow th
 - Vitest configuration, tests, async assertions, mocks, fake timers, coverage and CI
 - DOM vs Browser Mode selection; common debugging and migration issues
 - Explicit special-case contributor guardrails for the actual Vitest monorepo
-- Starter snippets under `assets/` intended for adaptation, not automatic overwrite; `add.ts` and `example.test.ts` form a small runnable pair
+- Starter snippets under `assets/` intended for adaptation, not automatic overwrite; copy `example.test.ts.template` as `example.test.ts` alongside `add.ts` in a Vitest project to run the example
 
 ## Example prompts
 

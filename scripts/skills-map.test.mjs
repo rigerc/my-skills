@@ -355,9 +355,9 @@ test('an old lock is never stolen; read-only discovery and dry-run do not touch 
 });
 
 test('unsupported Node majors fail before any command executes', () => {
-  const code = `Object.defineProperty(process.versions, 'node', {value: '24.0.0'}); const {main} = await import(${JSON.stringify(new URL('./skills-map.mjs', import.meta.url).href)}); await main(['--help']);`;
+  const code = `Object.defineProperty(process.versions, 'node', {value: '20.0.0'}); const {main} = await import(${JSON.stringify(new URL('./skills-map.mjs', import.meta.url).href)}); await main(['--help']);`;
   const result = spawnSync(process.execPath, ['--input-type=module', '-e', code], {encoding: 'utf8'});
   assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /Node.js 22 is required/);
+  assert.match(result.stderr, /Node.js 22 or newer is required/);
   assert.equal(result.stdout, '');
 });

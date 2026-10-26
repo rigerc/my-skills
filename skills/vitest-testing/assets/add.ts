@@ -1,4 +1,4 @@
-// Companion to example.test.ts; purely illustrative.
+// Companion to example.test.ts.template; purely illustrative.
 export function add(a: number, b: number): number {
   return a + b
 }

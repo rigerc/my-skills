@@ -4,16 +4,22 @@
   "registryId": "rigerc/my-skills",
   "skills": [
     {
+      "id": "rigerc/my-skills/agentsmesh-authoring",
+      "name": "agentsmesh-authoring",
+      "path": "skills/agentsmesh-authoring/SKILL.md",
+      "description": "Author, edit, migrate, troubleshoot, and validate AgentsMesh canonical configuration (.agentsmesh rules, hooks, commands, agents, skills, MCP servers, permissions, ignore, lessons, and agentsmesh.yaml) for multiple AI coding tools."
+    },
+    {
       "id": "rigerc/my-skills/agnix",
       "name": "agnix",
       "path": "skills/agnix/SKILL.md",
       "description": "Use when asked to lint, validate, troubleshoot, or improve AI coding-agent configuration files (SKILL.md, AGENTS.md, CLAUDE.md, hooks, MCP, or IDE agent rules), or to set up agnix checks in CI. Run the agnix CLI, explain its diagnostics, and apply explicitly requested safe fixes across Claude Code, Codex, Cursor, Copilot, Kiro, OpenCode, and related tools."
     },
     {
-      "id": "rigerc/my-skills/github-project-manager",
-      "name": "github-project-manager",
-      "path": "skills/github-project-manager/SKILL.md",
-      "description": "Manage GitHub software-delivery work using the gh CLI and role-based T3 Code orchestration. Discover providers/models, explicitly ask which provider and model to assign to each active agent role before delegation, and coordinate scoped child tasks through orchestrator_capabilities, delegate_task, and task_status. Use for issue triage, backlog grooming, GitHub Projects v2 boards, sprint and milestone planning, dependencies, parallel implementation, PR and CI coordination, standups, status reports, and releases. Trigger on gh issue, gh pr, gh project, kanban, sprint, project management, delegating code work, or coordinating multiple agent tasks."
+      "id": "rigerc/my-skills/fix-anti-slop",
+      "name": "fix-anti-slop",
+      "path": "skills/fix-anti-slop/SKILL.md",
+      "description": "Diagnose and fix anti-slop Oxlint warnings and errors in TypeScript/JavaScript repositories, including optional Effect rules and oxc/no-accumulating-spread. Use when lint reports anti-slop violations, after installing or updating anti-slop, or when asked to make anti-slop checks pass without suppressing rules or weakening types."
     },
     {
       "id": "rigerc/my-skills/gum-cli",
@@ -68,6 +74,12 @@
       "name": "serena-usage",
       "path": "skills/serena-usage/SKILL.md",
       "description": "Serena MCP for project memory and code navigation. Use when managing Serena memories, navigating symbols, performing intelligent refactoring, or maintaining context/continuity across AI agent sessions."
+    },
+    {
+      "id": "rigerc/my-skills/t3-delegate",
+      "name": "t3-delegate",
+      "path": "skills/t3-delegate/SKILL.md",
+      "description": "Delegate bounded implementation, research, review, design, or test assignments to T3 Code child tasks. Use for requested delegation or independent work where the active host permits it; preserve selected providers, models, and options, collect completion evidence, and integrate results."
     },
     {
       "id": "rigerc/my-skills/ue4ss-bridge",
