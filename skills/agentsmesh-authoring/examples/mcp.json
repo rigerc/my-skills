@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "example-local": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./scripts/mcp-server.js"],
+      "env": { "API_TOKEN": "$API_TOKEN" }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Example only; real effectiveness and ask prompts vary by target.
+allow:
+  - Read
+  - Grep
+  - Glob
+deny:
+  - Read(.env)
+  - Read(.env.*)
+  - Bash(rm -rf:*)
+ask:
+  - Bash(git push:*)

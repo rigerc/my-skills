@@ -1,0 +1,10 @@
+# Example only: review target support and availability of npm lint before using.
+PreToolUse:
+  - matcher: "Bash"
+    type: prompt
+    prompt: "Before executing, review the command for destructive actions or unintended disclosure of secrets."
+PostToolUse:
+  - matcher: "Edit|Write"
+    type: command
+    command: "npm run lint --if-present"
+    timeout: 60

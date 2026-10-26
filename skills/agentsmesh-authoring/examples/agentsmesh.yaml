@@ -1,0 +1,7 @@
+# Example only: select targets that your actual project uses.
+version: 1
+targets:
+  - claude-code
+  - cursor
+  - copilot
+# features omitted: all canonical feature categories are enabled.
