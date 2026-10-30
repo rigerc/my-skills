@@ -8,7 +8,7 @@ from pathlib import Path
 
 SET_RE = re.compile(r'^Set\s+([A-Za-z]+)(?:\s+|$)')
 DECL_RE = re.compile(r'^(Output|Require|Set|Env|Source)\b')
-ACTION_RE = re.compile(r'^(Type(?:@\S+)?|Enter|Sleep|Wait(?:\+\w+)?(?:@\S+)?|Hide|Show|Screenshot|Copy|Paste|(?:Ctrl|Alt|Shift)\+\S+|Backspace|Tab|Space|Up|Down|Left|Right|PageUp|PageDown|ScrollUp|ScrollDown)\b')
+ACTION_RE = re.compile(r'^(Type(?:@\S+)?|Enter|Sleep|Wait(?:\+\w+)?(?:@\S+)?|Hide|Show|Screenshot|Copy|Paste|(?:Ctrl|Alt|Shift)\+\S+|Backspace|Enter|Escape|Delete|Insert|Tab|Space|Up|Down|Left|Right|PageUp|PageDown|ScrollUp|ScrollDown)\b')
 DANGEROUS_RE = re.compile(r'\b(?:sudo\b|rm\s+-[rfRF]+\b|mkfs\b|curl\b[^\n]*\|\s*(?:sh|bash)\b|git\s+push\s+--force\b)')
 SECRET_RE = re.compile(r'(?i)(?:api[_-]?key|secret|password|token)\s*[=:]\s*["\']?[^\s"\']{6,}')
 

@@ -21,9 +21,13 @@ python3 scripts/run_workflow.py simple path/to/demo.tape --strict
 
 ```sh
 python3 scripts/run_workflow.py expanded path/to/demo.tape
+# For evidence-backed audits, move verified artifacts to a Git-ignored directory:
+python3 scripts/run_workflow.py expanded path/to/demo.tape --audit
 # For a single GIF or PNG, create a sampled-frame contact sheet:
 python3 scripts/run_workflow.py expanded path/to/demo.tape --contact-sheet path/to/contact.png
 ```
+
+The expanded runner verifies every declared `Output` **and** `Screenshot`, including local `Source` tapes. It rejects missing, stale, truncated or unreadable artifacts (and requires Pillow for complete PNG/GIF decoding). It never deletes existing outputs before recording, and checks their modification timestamps so a previous render cannot masquerade as fresh evidence. In `--audit` mode, after a successful render it moves verified GIFs, screenshots and frame sequences under `<repo>/.tui-audit/<tape-stem>/` and ensures the repository's root `.gitignore` contains `/.tui-audit/`. Audit mode requires all artifacts to stay within the repository; normal expanded mode keeps the paths declared in the tape (important for checked-in demo/golden outputs). Original files are only moved after all checks pass; no synthetic screenshots are produced.
 
 The scripts are relative to this installed skill directory; invoke them with their actual paths. `expanded` requires `vhs`, `ttyd`, and `ffmpeg` on PATH; image metadata and contact sheets require Pillow, while MP4/WebM metadata benefits from `ffprobe`. When inspection dependencies are unavailable, report partial inspection rather than a clean bill of health.
 
@@ -40,7 +44,7 @@ The scripts are relative to this installed skill directory; invoke them with the
 
 In addition to the successful preflight and zero exit status from VHS:
 
-- Confirm each declared artifact exists and is nonempty; inspect duration, resolution, frame count, and stream metadata where supported.
+- Confirm **every** declared output and screenshot exists, is fresh from this run, and is decodable; inspect duration, resolution, frame count and stream metadata where supported. An unvalidated PNG sequence directory is not sufficient evidence.
 - **Visually examine** the GIF, video, or sampled frames for unreadable type, clipping, blank opening/ending, incorrect prompts, accidental secrets, and excessively long waits. Contact sheets are a sampling aid, not automated proof of visual quality.
 - For animated output, check beginning, middle, and ending frames. If the behavior depends on animation timing, play the entire animation.
 - Correct the `.tape`, rerun VHS and inspect again. If the runtime cannot access the target CLI or viewer, explicitly note what was and was not checked.
