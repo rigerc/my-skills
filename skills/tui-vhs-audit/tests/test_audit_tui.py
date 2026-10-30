@@ -44,9 +44,9 @@ class AuditTests(unittest.TestCase):
     def test_wait_literal_is_go_regex_compatible(self):
         # re.escape inserts '\\ ' and '\\/' that Go regexp does not accept.
         cases = {
-            "Ready (1/2)": r"Ready \\(1\\x2f2\\)",
+            "Ready (1/2)": r"Ready \(1\x2f2\)",
             "Done: 100%! #1": "Done: 100%! #1",
-            r"Path\\name [ok]?": r"Path\\\\name \\[ok\\]\\?",
+            r"Path\name [ok]?": r"Path\\name \[ok\]\?",
         }
         for literal, expected in cases.items():
             with self.subTest(literal=literal):
@@ -67,14 +67,14 @@ class AuditTests(unittest.TestCase):
             data["cwd"] = "ui"
             source.write_text(json.dumps(data))
             ignore = repo / ".gitignore"
-            ignore.write_text("# Existing ignores\\n__pycache__/\\n")
+            ignore.write_text("# Existing ignores\n__pycache__/\n")
             args = SimpleNamespace(plan=source, out=None, force=False)
             self.assertEqual(mod.cmd_prepare(args), 0)
             out = repo / ".tui-audit"
             self.assertTrue((out / "main--small" / "audit.tape").exists())
             self.assertIn("Screenshot screens/01-start.png",
                           (out / "main--small" / "audit.tape").read_text())
-            self.assertEqual(ignore.read_text(), "# Existing ignores\\n__pycache__/\\n/.tui-audit/\\n")
+            self.assertEqual(ignore.read_text(), "# Existing ignores\n__pycache__/\n/.tui-audit/\n")
             self.assertEqual(mod.repo_root(nested), repo.resolve())
 
             report = out / "audit-report.md"
