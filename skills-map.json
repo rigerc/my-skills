@@ -218,7 +218,8 @@
     {
       "technologyId": "vhs",
       "skills": [
-        "rigerc/my-skills/vhs-cli"
+        "rigerc/my-skills/vhs-cli",
+        "rigerc/my-skills/tui-vhs-audit"
       ]
     },
     {

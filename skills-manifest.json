@@ -82,6 +82,12 @@
       "description": "Delegate bounded implementation, research, review, design, or test assignments to T3 Code child tasks. Use for requested delegation or independent work where the active host permits it; preserve selected providers, models, and options, collect completion evidence, and integrate results."
     },
     {
+      "id": "rigerc/my-skills/tui-vhs-audit",
+      "name": "tui-vhs-audit",
+      "path": "skills/tui-vhs-audit/SKILL.md",
+      "description": "Audit terminal user interfaces (TUIs) by scripting realistic keyboard journeys with Charmbracelet VHS, taking named PNG screenshots at key states and viewport sizes, visually reviewing layout and accessibility, and delivering evidence-backed findings. Use for TUI visual QA, regressions, navigation audits, clipping/overflow checks, empty/error/help states, or terminal UI screenshot requests."
+    },
+    {
       "id": "rigerc/my-skills/ue4ss-bridge",
       "name": "ue4ss-bridge",
       "path": "skills/ue4ss-bridge/SKILL.md",

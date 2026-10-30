@@ -1,0 +1,21 @@
+{
+  "app_id": "fixture-tui",
+  "cwd": "..",
+  "launch": "python3 examples/demo_tui.py",
+  "viewports": [
+    {"id": "desktop", "width": 1100, "height": 650, "font_size": 20},
+    {"id": "small", "width": 720, "height": 420, "font_size": 18}
+  ],
+  "scenarios": [
+    {
+      "id": "navigation",
+      "description": "Initial view, focus movement, and help overlay",
+      "steps": [
+        {"id": "start", "wait_for": "Dashboard", "inspect_for": "Navigation instructions, contrast, overflow"},
+        {"id": "selected", "actions": [{"key": "Down"}], "wait_for": "Selected: Reports", "inspect_for": "Selected item highlighting and focus"},
+        {"id": "help", "actions": [{"text": "?"}], "wait_for": "Help", "inspect_for": "Help text readability and escape hint"}
+      ],
+      "exit_actions": [{"key": "Ctrl+C"}]
+    }
+  ]
+}

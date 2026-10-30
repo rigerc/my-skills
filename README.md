@@ -6,7 +6,7 @@ Create shareable AI agent skill registries for [Nosey](https://github.com/rigerc
 
 ## Skill catalog
 
-Registry: rigerc/my-skills · 16 skills.
+Registry: rigerc/my-skills · 17 skills.
 
 Generated from [skills-manifest.json](skills-manifest.json) and [skills-map.json](skills-map.json). Edit those sources or skill frontmatter, then regenerate this section.
 
@@ -109,6 +109,14 @@ Serena MCP for project memory and code navigation. Use when managing Serena memo
 Delegate bounded implementation, research, review, design, or test assignments to T3 Code child tasks. Use for requested delegation or independent work where the active host permits it; preserve selected providers, models, and options, collect completion evidence, and integrate results.
 
 Available; no automatic recommendation.
+
+### [tui-vhs-audit](skills/tui-vhs-audit/SKILL.md)
+
+Audit terminal user interfaces \(TUIs\) by scripting realistic keyboard journeys with Charmbracelet VHS, taking named PNG screenshots at key states and viewport sizes, visually reviewing layout and accessibility, and delivering evidence-backed findings. Use for TUI visual QA, regressions, navigation audits, clipping/overflow checks, empty/error/help states, or terminal UI screenshot requests.
+
+**Recommended when:**
+
+- Charmbracelet VHS is detected \(file extensions: .tape\)
 
 ### [ue4ss-bridge](skills/ue4ss-bridge/SKILL.md)
 
