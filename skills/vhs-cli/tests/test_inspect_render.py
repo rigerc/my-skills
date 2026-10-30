@@ -15,14 +15,15 @@ def png(path, truncated=False):
     def chunk(name, data):
         return (struct.pack('>I', len(data)) + name + data +
                 struct.pack('>I', zlib.crc32(name + data) & 0xffffffff))
-    raw = b'\x00' + b'\x20\x40\x60' * 4
+    width, height = 480, 240
+    raw = (b'\x00' + b'\x20\x40\x60' * width) * height
     stream = bytearray(zlib.compress(raw))
     if truncated:
         stream[3] ^= 0xff  # Valid PNG chunk CRC, corrupt compressed pixels.
     stream = bytes(stream)
     path.write_bytes(
         b'\x89PNG\r\n\x1a\n' +
-        chunk(b'IHDR', struct.pack('>IIBBBBB', 4, 1, 8, 2, 0, 0, 0)) +
+        chunk(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 2, 0, 0, 0)) +
         chunk(b'IDAT', stream) + chunk(b'IEND', b'')
     )
 
