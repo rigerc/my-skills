@@ -14,8 +14,14 @@ def inspect(path, contact_sheet=None):
     if path.is_dir():
         frames = sorted(path.glob('*.png'))
         result['metadata'] = {'png_frames': len(frames)}
-        if not frames: result['issues'].append('No PNG frames found')
-        else: result['ok'] = True
+        if not frames:
+            result['issues'].append('No PNG frames found')
+        else:
+            invalid = [(frame.name, inspect(frame)['issues']) for frame in frames]
+            for name, issues in invalid:
+                for issue in issues:
+                    result['issues'].append(f'{name}: {issue}')
+        result['ok'] = not result['issues']
         return result
     size = path.stat().st_size
     result['metadata']['bytes'] = size
@@ -26,11 +32,15 @@ def inspect(path, contact_sheet=None):
             from PIL import Image, ImageOps, ImageDraw
             with Image.open(path) as img:
                 result['metadata'].update({'width': img.width, 'height': img.height, 'frames': getattr(img, 'n_frames', 1)})
-                if ext == '.gif':
-                    times = []
-                    for k in range(img.n_frames):
-                        img.seek(k)
+                # Image.open() parses headers lazily: load every frame to detect
+                # corrupted/truncated PNG and GIF content before reporting PASS.
+                times = []
+                for k in range(getattr(img, 'n_frames', 1)):
+                    img.seek(k)
+                    img.load()
+                    if ext == '.gif':
                         times.append(img.info.get('duration', 0))
+                if ext == '.gif':
                     result['metadata']['duration_seconds'] = round(sum(times)/1000, 3)
                 if img.width < 400 or img.height < 180: result['issues'].append('Small frame; check legibility')
                 if contact_sheet:
