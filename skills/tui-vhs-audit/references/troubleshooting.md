@@ -2,7 +2,9 @@
 
 **`BLOCKED: missing recording dependencies`** — Install `vhs`, `ttyd`, and `ffmpeg` in the *same environment that will execute the TUI*. Inspect `vhs manual`. On some systems VHS bundles its browser automation but still requires a working Chrome/Chromium and terminal renderer.
 
-**VHS renders but screenshots are absent** — Check the log/exit code, screenshot directories, and whether `Screenshot` appears after launch. VHS resolves relative image paths from the working directory in which you invoke it. This skill runs each tape with `cwd=tape.parent` and creates `screens/` first.
+**`Not inside a Git repository`** — The default output requires Git so it can place evidence under the audited repository's root `.tui-audit/`. For `prepare`, check the JSON plan's `cwd`; for `run`/`inspect`, run from inside that same repository. `--out PATH` is an explicit alternative, but must be excluded from commits manually. If `.tui-audit/` is a symlink, remove it or use a safe, explicit output location.
+
+**VHS renders but screenshots are absent** — Check the log/exit code, screenshot directories, and whether `Screenshot` appears after launch. VHS resolves relative image paths from the working directory in which you invoke it. This skill runs each tape with `cwd=tape.parent` and creates `screens/` first. Without an explicit `--out`, captures are in `<target repo>/.tui-audit/<scenario>--<viewport>/screens/` rather than a system temporary directory.
 
 **Screenshot shows the next state or the final PNG is missing** — VHS queues `Screenshot` for the next video frame. Leave a short pause after the directive before sending more keys or ending the tape. Generated tapes include a 250ms pause; increase it if frame capture is slow in your environment.
 
