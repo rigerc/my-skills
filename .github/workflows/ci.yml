@@ -49,6 +49,8 @@ jobs:
         run: node scripts/check-template-policy.mjs
       - name: Check generated output, validate schemas, and run all tests
         run: node scripts/check.mjs
+      - name: Run TUI VHS audit regression tests
+        run: python3 -m unittest discover -s skills/tui-vhs-audit/tests -v
       - name: Require committed generated output and unchanged tracked files
         run: |
           git diff --exit-code
