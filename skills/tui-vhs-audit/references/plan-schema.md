@@ -30,21 +30,23 @@ Scenario and viewport IDs must also produce unique combined `<scenario>--<viewpo
 Generated layout for a plan with a `navigation` scenario and a `small` viewport:
 
 ```text
-audit-out/
-  manifest.json
-  navigation--small/
-    audit.tape
-    recording.gif           # after successful VHS render
-    screens/
-      01-start.png           # after successful VHS render
-      02-selected.png
-  render-results.json        # after run
-  inspection.json            # after inspect
-  contact-sheet.png          # after inspect with Pillow installed
-  audit-report.md            # report scaffold, not a completed review
+<target-repo>/
+  .gitignore                 # contains /.tui-audit/
+  .tui-audit/
+    manifest.json
+    navigation--small/
+      audit.tape
+      recording.gif           # after successful VHS render
+      screens/
+        01-start.png           # after successful VHS render
+        02-selected.png
+    render-results.json        # after run
+    inspection.json            # after inspect
+    contact-sheet.png          # after inspect with Pillow installed
+    audit-report.md            # report scaffold, not a completed review
 ```
 
-The generated tapes use `Output recording.gif` because VHS expects an output and the GIF helps debug timing; PNG screenshots are the primary evidence. Audit output directories should be outside the application repository when possible to avoid recursive test fixtures and accidental commits.
+The generated tapes use `Output recording.gif` because VHS expects an output and the GIF helps debug timing; PNG screenshots are the primary evidence. The default output directory is `<target Git root>/.tui-audit/`, and `prepare` appends the root-anchored rule `/.tui-audit/` to `.gitignore` if needed. `prepare` discovers the Git root from the plan's `cwd`; `run` and `inspect` use the caller's current directory. Keep `.tui-audit/` excluded from app test fixture globbing and file watchers where relevant. Explicit `--out PATH` overrides the default and is not automatically gitignored.
 
 Each screenshot is followed by a 250ms pause so VHS can capture its queued frame before the next action or exit. This pause is independent of the step's `settle_ms`.
 
