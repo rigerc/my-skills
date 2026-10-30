@@ -24,6 +24,8 @@ def artifacts_in(tape, seen=None, render_dir=None):
         line = line.strip()
         if not line or line.startswith('#'):
             continue
+        if line.split(maxsplit=1)[0] not in ('Output', 'Screenshot', 'Source'):
+            continue
         try:
             parts = shlex.split(line)
         except ValueError as exc:
