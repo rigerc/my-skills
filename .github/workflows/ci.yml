@@ -49,8 +49,12 @@ jobs:
         run: node scripts/check-template-policy.mjs
       - name: Check generated output, validate schemas, and run all tests
         run: node scripts/check.mjs
-      - name: Run TUI VHS audit regression tests
-        run: python3 -m unittest discover -s skills/tui-vhs-audit/tests -v
+      - name: Run both VHS Python regression suites
+        run: |
+          python3 -m venv "$RUNNER_TEMP/vhs-python"
+          "$RUNNER_TEMP/vhs-python/bin/python" -m pip install Pillow==12.0.0
+          "$RUNNER_TEMP/vhs-python/bin/python" -m unittest discover -s skills/tui-vhs-audit/tests -v
+          "$RUNNER_TEMP/vhs-python/bin/python" -m unittest discover -s skills/vhs-cli/tests -v
       - name: Require committed generated output and unchanged tracked files
         run: |
           git diff --exit-code
