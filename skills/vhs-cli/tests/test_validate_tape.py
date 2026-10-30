@@ -20,6 +20,10 @@ class TapeLintTests(unittest.TestCase):
         self.assertTrue(any('conflicts' in i['message'] for i in self.check('Output x.gif\nSet Width 800\nSet Columns 80\n')))
     def test_misplaced_setting(self):
         self.assertTrue(any('ignored' in i['message'] for i in self.check('Output x.gif\nType "hi"\nSet Height 400\n')))
+    def test_supported_navigation_keys_are_recognized(self):
+        errors = self.check('Output x.gif\nEscape\nDelete\nInsert\nEnter\n')
+        self.assertFalse(errors, errors)
+
     def test_hidden(self):
         self.assertTrue(any('Hide' in i['message'] for i in self.check('Output x.gif\nHide\n')))
     def test_missing_artifact(self):
