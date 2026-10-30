@@ -201,7 +201,7 @@ def repo_root(directory):
     """Find the audited application's Git root, including in Git worktrees."""
     try:
         result = subprocess.run(
-            ["git", "-C", str(directory), "rev-parse", "--show-toplevel"],
+            ["git", "-c", "core.quotePath=false", "-C", str(directory), "rev-parse", "--show-toplevel"],
             capture_output=True, text=True, check=False,
         )
     except FileNotFoundError as exc:
