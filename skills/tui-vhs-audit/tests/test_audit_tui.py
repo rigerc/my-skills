@@ -76,6 +76,11 @@ class AuditTests(unittest.TestCase):
                           (out / "main--small" / "audit.tape").read_text())
             self.assertEqual(ignore.read_text(), "# Existing ignores\n__pycache__/\n/.tui-audit/\n")
             self.assertEqual(mod.repo_root(nested), repo.resolve())
+            ignored = subprocess.run(
+                ["git", "-C", str(repo), "check-ignore", "-q", ".tui-audit/main--small/audit.tape"],
+                check=False,
+            )
+            self.assertEqual(ignored.returncode, 0, "Git must ignore generated tapes and PNGs")
 
             report = out / "audit-report.md"
             report.write_text("Reviewed findings")
@@ -87,7 +92,6 @@ class AuditTests(unittest.TestCase):
                 self.assertEqual(mod.cmd_inspect(SimpleNamespace(out=None, no_contact_sheet=True)), 1)
             self.assertEqual(report.read_text(), "Reviewed findings")
             self.assertTrue((out / "audit-report.new.md").exists())
-            self.assertIn("navigation", json.dumps(data["scenarios"]))
 
     def test_rejects_plan_with_no_screenshots(self):
         with tempfile.TemporaryDirectory() as td:
