@@ -141,6 +141,9 @@ def main():
                     raise ValueError(f'Audit artifact escapes repository: {artifact}')
             ensure_ignored(root)
         before = {path: fingerprint(path) for path in artifacts}
+        # VHS requires Screenshot parent directories to exist on some versions.
+        for artifact in artifacts:
+            artifact.parent.mkdir(parents=True, exist_ok=True)
         proc = subprocess.run(['vhs', tape.name], cwd=tape.parent, check=False)
     except (OSError, ValueError) as exc:
         print(f'BLOCKED: {exc}')
@@ -154,9 +157,18 @@ def main():
         sheet = (args.contact_sheet if args.contact_sheet and
                  artifact.suffix.lower() in ('.gif', '.png') and len(artifacts) == 1 else None)
         result = inspect(artifact, sheet)
-        if fingerprint(artifact) == before[artifact]:
+        after = fingerprint(artifact)
+        if after == before[artifact]:
             result['issues'].append('Stale artifact: VHS did not update this output')
             result['ok'] = False
+        elif artifact.is_dir() and before[artifact] is not None and after is not None:
+            # A partially refreshed PNG sequence must not retain old frames.
+            unchanged = set(before[artifact]) & set(after)
+            if unchanged:
+                result['issues'].append(
+                    f'Stale PNG frames in sequence: {", ".join(x[0] for x in sorted(unchanged))}'
+                )
+                result['ok'] = False
         print(f'{"PASS" if result["ok"] else "REVIEW"}: {artifact}: {result["metadata"]}')
         for problem in result['issues']:
             print('  - ' + problem)
@@ -167,9 +179,13 @@ def main():
 
     if root is not None:
         destination = root / '.tui-audit' / tape.stem
-        for artifact in artifacts:
-            archived = archive_artifact(artifact, root, destination)
-            print(f'AUDIT: {archived}')
+        try:
+            for artifact in artifacts:
+                archived = archive_artifact(artifact, root, destination)
+                print(f'AUDIT: {archived}')
+        except (OSError, ValueError) as exc:
+            print(f'FAILED: could not archive audit artifact: {exc}')
+            return 3
     print('Inspection metadata cannot prove visual quality: inspect sampled frames manually for clipping, secrets, and timing.')
     return 0
 
