@@ -59,9 +59,10 @@ def type_lines(value):
 
 
 def wait_literal(value):
-    # No freeform regexp injection: plan 'wait_for' denotes exact visible text.
+    # VHS uses Go's regexp syntax: Python re.escape() emits unsupported escapes
+    # for spaces/punctuation. Hex-encode '/' to avoid ending the tape delimiter.
     one_line(value, "wait_for")
-    return re.escape(value).replace("/", r"\/")
+    return re.sub(r"([\\.+*?()|\[\]{}^$])", r"\\\1", value).replace("/", r"\x2f")
 
 
 def validate_actions(actions, context):
@@ -125,6 +126,8 @@ def validate_plan(plan, plan_file):
             if "inspect_for" in step:
                 one_line(step["inspect_for"], f"{name}/{sid}.inspect_for")
         validate_actions(scenario.get("exit_actions", [{"key": "Ctrl+C"}]), f"{name}/exit")
+    require(any(step.get("screenshot", True) for scenario in scenarios for step in scenario["steps"]),
+            "Plan must capture at least one screenshot")
     run_ids = set()
     for vp in viewports:
         for scenario in scenarios:
@@ -194,21 +197,59 @@ def discard_capture_artifacts(out, manifest):
                 path.unlink()
 
 
+def repo_root(directory):
+    """Find the audited application's Git root, including in Git worktrees."""
+    try:
+        result = subprocess.run(
+            ["git", "-c", "core.quotePath=false", "-C", str(directory), "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, check=False,
+        )
+    except FileNotFoundError as exc:
+        raise PlanError("Git is required for the default .tui-audit location") from exc
+    require(result.returncode == 0 and bool(result.stdout.strip()),
+            f"Not inside a Git repository: {directory} (or pass --out explicitly)")
+    return Path(result.stdout.strip()).resolve()
+
+
+def audit_output(args, directory):
+    """Default to the audited repository's private artifacts directory."""
+    if args.out is not None:
+        return args.out.resolve()
+    out = repo_root(directory) / ".tui-audit"
+    require(not out.is_symlink(), f"Refusing symlinked audit directory: {out}")
+    return out
+
+
+def ensure_gitignore(out):
+    """Ignore generated screenshots at the target repo root without overwriting rules."""
+    ignore = out.parent / ".gitignore"
+    require(not ignore.is_symlink(), f"Refusing symlinked .gitignore: {ignore}")
+    existing = ignore.read_text(encoding="utf-8") if ignore.exists() else ""
+    if "/.tui-audit/" not in existing.splitlines():
+        with ignore.open("a", encoding="utf-8") as handle:
+            if existing and not existing.endswith("\n"):
+                handle.write("\n")
+            handle.write("/.tui-audit/\n")
+
+
 def cmd_prepare(args):
     plan_file = args.plan.resolve()
     plan = json.loads(plan_file.read_text(encoding="utf-8"))
     cwd = validate_plan(plan, plan_file)
-    out = args.out.resolve()
+    out = audit_output(args, cwd)
     require(out != cwd, "Audit output must not overwrite the app's working directory")
     manifest_path = out / "manifest.json"
     if manifest_path.exists():
         if not args.force:
             raise PlanError(f"Audit already exists: {manifest_path} (use --force to regenerate)")
         discard_capture_artifacts(out, json.loads(manifest_path.read_text(encoding="utf-8")))
-        for stale in ("render-results.json", "inspection.json", "contact-sheet.png", "audit-report.md"):
+        for stale in ("render-results.json", "inspection.json", "contact-sheet.png", "audit-report.new.md"):
             path = out / stale
             if path.is_file():
                 path.unlink()
+    # Auto-ignore the default output in the target repository, not the skill install.
+    if args.out is None:
+        ensure_gitignore(out)
     out.mkdir(parents=True, exist_ok=True)
     runs = []
     for vp in plan["viewports"]:
@@ -253,7 +294,8 @@ def read_manifest(out):
 
 
 def cmd_run(args):
-    out = args.out.resolve()
+    out = audit_output(args, Path.cwd())
+    require(args.timeout_sec > 0, "--timeout-sec must be greater than zero")
     manifest = read_manifest(out)
     missing = [binary for binary in ("vhs", "ttyd", "ffmpeg") if shutil.which(binary) is None]
     if missing:
@@ -339,7 +381,7 @@ def make_contact_sheet(out, manifest, results):
 
 
 def cmd_inspect(args):
-    out = args.out.resolve()
+    out = audit_output(args, Path.cwd())
     manifest = read_manifest(out)
     statuses = {}
     for run in manifest["runs"]:
@@ -402,15 +444,15 @@ def main():
     subs = parser.add_subparsers(dest="command", required=True)
     prep = subs.add_parser("prepare", help="Generate reproducible VHS tapes and screenshot manifest (no app execution)")
     prep.add_argument("plan", type=Path)
-    prep.add_argument("--out", type=Path, required=True)
+    prep.add_argument("--out", type=Path, help="Override the default <app Git root>/.tui-audit")
     prep.add_argument("--force", action="store_true")
     run = subs.add_parser("run", help="Execute generated tapes with local VHS; requires explicit --yes")
-    run.add_argument("--out", type=Path, required=True)
+    run.add_argument("--out", type=Path, help="Override the default <current Git root>/.tui-audit")
     run.add_argument("--yes", action="store_true", help="I have reviewed and trust all shell commands in the tapes")
     run.add_argument("--timeout-sec", type=int, default=120)
     run.add_argument("--keep-going", action="store_true")
     inspect = subs.add_parser("inspect", help="Inventory captures and generate contact sheet/report skeleton")
-    inspect.add_argument("--out", type=Path, required=True)
+    inspect.add_argument("--out", type=Path, help="Override the default <current Git root>/.tui-audit")
     inspect.add_argument("--no-contact-sheet", action="store_true")
     inspect.add_argument("--overwrite-report", action="store_true", help="Replace an existing audit-report.md")
     args = parser.parse_args()

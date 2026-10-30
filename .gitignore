@@ -24,3 +24,6 @@ AGENTS.local.md
 .env.*
 !.env.example
 .DS_Store
+
+# Local VHS audit evidence
+/.tui-audit/

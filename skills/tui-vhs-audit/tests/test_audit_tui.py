@@ -3,7 +3,9 @@ import importlib.util
 import json
 import re
 import shlex
+import shutil
 import struct
+import subprocess
 import tempfile
 import unittest
 import zlib
@@ -39,6 +41,71 @@ def create_png(path):
 
 
 class AuditTests(unittest.TestCase):
+    def test_wait_literal_is_go_regex_compatible(self):
+        # re.escape inserts '\\ ' and '\\/' that Go regexp does not accept.
+        cases = {
+            "Ready (1/2)": r"Ready \(1\x2f2\)",
+            "Done: 100%! #1": "Done: 100%! #1",
+            r"Path\name [ok]?": r"Path\\name \[ok\]\?",
+        }
+        for literal, expected in cases.items():
+            with self.subTest(literal=literal):
+                regex = mod.wait_literal(literal)
+                self.assertEqual(regex, expected)
+                self.assertIsNotNone(re.fullmatch(regex, literal))
+
+    @unittest.skipUnless(shutil.which("git"), "Git required for repo-root default")
+    def test_default_output_is_repo_local_and_gitignored(self):
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "app"
+            repo.mkdir()
+            subprocess.run(["git", "init", "-q", str(repo)], check=True)
+            nested = repo / "ui"
+            nested.mkdir()
+            source = repo / "plan.json"
+            data = plan()
+            data["cwd"] = "ui"
+            source.write_text(json.dumps(data))
+            ignore = repo / ".gitignore"
+            ignore.write_text("# Existing ignores\n__pycache__/\n")
+            args = SimpleNamespace(plan=source, out=None, force=False)
+            self.assertEqual(mod.cmd_prepare(args), 0)
+            out = repo / ".tui-audit"
+            self.assertTrue((out / "main--small" / "audit.tape").exists())
+            self.assertIn("Screenshot screens/01-start.png",
+                          (out / "main--small" / "audit.tape").read_text())
+            self.assertEqual(ignore.read_text(), "# Existing ignores\n__pycache__/\n/.tui-audit/\n")
+            self.assertEqual(mod.repo_root(nested), repo.resolve())
+            ignored = subprocess.run(
+                ["git", "-C", str(repo), "check-ignore", "-q", ".tui-audit/main--small/audit.tape"],
+                check=False,
+            )
+            self.assertEqual(ignored.returncode, 0, "Git must ignore generated tapes and PNGs")
+
+            report = out / "audit-report.md"
+            report.write_text("Reviewed findings")
+            args.force = True
+            self.assertEqual(mod.cmd_prepare(args), 0)
+            self.assertEqual(report.read_text(), "Reviewed findings")
+            self.assertEqual(ignore.read_text().count("/.tui-audit/"), 1)
+            with patch.object(mod.Path, "cwd", return_value=nested):
+                self.assertEqual(mod.cmd_inspect(SimpleNamespace(out=None, no_contact_sheet=True)), 1)
+            self.assertEqual(report.read_text(), "Reviewed findings")
+            self.assertTrue((out / "audit-report.new.md").exists())
+
+    def test_rejects_plan_with_no_screenshots(self):
+        with tempfile.TemporaryDirectory() as td:
+            data = plan()
+            for step in data["scenarios"][0]["steps"]:
+                step["screenshot"] = False
+            with self.assertRaisesRegex(mod.PlanError, "at least one screenshot"):
+                mod.validate_plan(data, Path(td) / "plan.json")
+
+    def test_rejects_nonpositive_run_timeout(self):
+        with tempfile.TemporaryDirectory() as td:
+            with self.assertRaisesRegex(mod.PlanError, "greater than zero"):
+                mod.cmd_run(SimpleNamespace(out=Path(td), timeout_sec=0))
+
     def test_type_commands_preserve_launch_and_input(self):
         # VHS strings end at the next matching delimiter; backslashes are literal.
         def typed_text(source):
@@ -164,7 +231,7 @@ class AuditTests(unittest.TestCase):
             tape = (out / "main--small" / "audit.tape").read_text()
             self.assertIn("Screenshot screens/01-start.png", tape)
             self.assertIn("Screenshot screens/02-help.png", tape)
-            self.assertIn(r"Wait+Screen /Ready\ \(1\/2\)/", tape)
+            self.assertIn(r"Wait+Screen /Ready \(1\x2f2\)/", tape)
             self.assertEqual(tape.splitlines().count("Down"), 2)
             self.assertIn('Type "?"', tape)
             with self.assertRaises(mod.PlanError):
