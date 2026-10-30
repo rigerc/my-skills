@@ -231,7 +231,7 @@ class AuditTests(unittest.TestCase):
             tape = (out / "main--small" / "audit.tape").read_text()
             self.assertIn("Screenshot screens/01-start.png", tape)
             self.assertIn("Screenshot screens/02-help.png", tape)
-            self.assertIn(r"Wait+Screen /Ready\ \(1\/2\)/", tape)
+            self.assertIn(r"Wait+Screen /Ready \(1\x2f2\)/", tape)
             self.assertEqual(tape.splitlines().count("Down"), 2)
             self.assertIn('Type "?"', tape)
             with self.assertRaises(mod.PlanError):
