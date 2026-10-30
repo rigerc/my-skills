@@ -15,16 +15,16 @@ Use a **capture → inspect → reproduce → report** loop. VHS's `Screenshot` 
 4. **Generate reproducible tapes:**
 
    ```sh
-   python3 scripts/audit_tui.py prepare examples/demo-plan.json --out /tmp/tui-audit
+   python3 scripts/audit_tui.py prepare examples/demo-plan.json
    ```
 
-   This creates one `.tape` per scenario/viewport, using `Screenshot screens/NN-state.png` after interaction and optional synchronization, plus a `manifest.json`. It does **not** launch the app or VHS.
+   By default this creates `<target Git root>/.tui-audit/` with one `.tape` per scenario/viewport, `Screenshot screens/NN-state.png` directives, and a `manifest.json`. The tool adds `/.tui-audit/` to the **target repository's** root `.gitignore` if missing, without replacing existing rules. It does **not** launch the app or VHS. For `prepare`, the target repo is discovered from the plan's `cwd` (relative to the plan); `run` and `inspect` discover it from the command's current directory. Run those commands from inside the same target repository. An explicit `--out PATH` overrides this default; only the default path gets automatic ignore management.
 
 5. **Review the generated tapes** for shell safety, correct navigation, realistic input, specific `Wait+Screen` markers and screenshot timing. Use `vhs manual` to verify version-specific syntax if necessary. When the uploaded `vhs-cli` skill is installed, you may use its `scripts/run_workflow.py simple path/to/audit.tape` for heuristic linting, but its existence is not a prerequisite.
 6. **Capture screenshots (expanded workflow only):**
 
    ```sh
-   python3 scripts/audit_tui.py run --out /tmp/tui-audit --yes
+   python3 scripts/audit_tui.py run --yes
    ```
 
    `--yes` confirms the tapes were reviewed. This requires local `vhs`, `ttyd` and `ffmpeg`; the target app and any fixtures must also be available in the VHS shell. For batch audits, `--keep-going` continues after failures. If these dependencies are missing, deliver the tapes and explicitly say no screenshots were rendered; do **not** fabricate findings.
@@ -32,7 +32,7 @@ Use a **capture → inspect → reproduce → report** loop. VHS's `Screenshot` 
 7. **Inventory screenshots and create audit report scaffold:**
 
    ```sh
-   python3 scripts/audit_tui.py inspect --out /tmp/tui-audit
+   python3 scripts/audit_tui.py inspect
    ```
 
    Outputs `inspection.json`, `audit-report.md`, and (when Pillow is installed) `contact-sheet.png`. Inspection validates PNG existence, dimensions, and optional decode/near-blank warnings. It does not automatically decide whether text is clipped, color contrast is sufficient, or navigation works. On repeat inspection, an existing edited report is preserved and a new `audit-report.new.md` is produced; use `--overwrite-report` only when intentional. A missing capture is a **capture failure**, not automatically a defect in the app.
@@ -76,6 +76,7 @@ The screenshots are the primary audit artifacts; the recording GIF is optional s
 - **Reproduction:** Each finding needs an exact viewport, scenario, key sequence, and PNG. Prioritize demonstrable user impact over cosmetic preferences.
 - **Visual quality:** Inspect clipped headings, long labels, borders, scroll indicators, columns, input field widths, focus cues, selected state, disabled state, overlays, prompt/cursor visibility, contrast, and empty/error messages. See `references/audit-rubric.md`.
 - **Terminal realities:** Pixel sizes and font size determine the character grid. Test small viewports and long content; colors depend on theme/terminal rendering. Mouse-dependent behavior is outside this keyboard-centered workflow.
+- **Output hygiene:** Generated tapes, GIFs, PNGs, reports, logs and contact sheets live under `<target repo>/.tui-audit/` by default, excluded from Git by the root ignore rule. Review screenshots in that directory and do not commit evidence containing sensitive information. A custom `--out` is an opt-out: configure its ignore rules yourself.
 - **Timing:** Prefer `Wait+Screen /unique-state-marker/` to arbitrary sleeps. A marker already visible before an action can cause a false pass; add a short settling delay and stronger state marker. Some applications require longer startup. VHS `Wait` generally defaults to a 15-second timeout. Keep a short pause after each `Screenshot`: VHS queues capture of the next frame, so immediate input or exit can change or lose the captured state. The generator adds 250ms after each screenshot.
 - **Safety:** Treat tapes like shell scripts. Never run unknown commands, mutating production actions, live secrets, privileged commands, clipboard-sensitive steps or untrusted remote code. Use disposable data. `Hide` only suppresses video frames and is **not** secret redaction.
 - **Honest limitations:** Static screenshots cannot verify animation, screen-reader behavior, full keyboard accessibility, actual color-contrast ratios, application state persistence or business-logic correctness. Use additional tests when those outcomes matter.
