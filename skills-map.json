@@ -157,6 +157,19 @@
           "README.md"
         ]
       }
+    },
+    {
+      "id": "rezi",
+      "name": "Rezi",
+      "detect": {
+        "packages": [
+          "@rezi-ui/core",
+          "@rezi-ui/jsx",
+          "@rezi-ui/node",
+          "@rezi-ui/testkit",
+          "create-rezi"
+        ]
+      }
     }
   ],
   "technologySkills": [
@@ -232,6 +245,12 @@
       "technologyId": "readme",
       "skills": [
         "rigerc/my-skills/readme-crafter-skill"
+      ]
+    },
+    {
+      "technologyId": "rezi",
+      "skills": [
+        "rigerc/my-skills/rezi"
       ]
     }
   ],

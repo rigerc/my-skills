@@ -70,6 +70,12 @@
       "description": "Creates repository-specific README.md files that act as landing pages, onboarding guides, and trust signals. Use when the user asks to write, rewrite, improve, audit, localize, or restructure a README, or when a codebase needs a GitHub-facing project overview. Common triggers include \"write a README\", \"improve my README\", \"generate README.md\", \"rewrite this project overview\", and \"make this repo easier to understand\". Adapts to libraries, CLI tools, apps, research repos, browser extensions, internal tools, monorepos, and bilingual README workflows."
     },
     {
+      "id": "rigerc/my-skills/rezi",
+      "name": "rezi",
+      "path": "skills/rezi/SKILL.md",
+      "description": "Build, extend, and troubleshoot Rezi TypeScript terminal user interfaces (TUIs). Use for @rezi-ui/core, @rezi-ui/node, create-rezi, ui.* widget trees, screens, routing, keyboard/focus behavior, forms, tables, overlays, testing, native rendering, and Rezi framework contributions."
+    },
+    {
       "id": "rigerc/my-skills/serena-usage",
       "name": "serena-usage",
       "path": "skills/serena-usage/SKILL.md",

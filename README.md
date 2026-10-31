@@ -6,7 +6,7 @@ Create shareable AI agent skill registries for [Nosey](https://github.com/rigerc
 
 ## Skill catalog
 
-Registry: rigerc/my-skills · 17 skills.
+Registry: rigerc/my-skills · 18 skills.
 
 Generated from [skills-manifest.json](skills-manifest.json) and [skills-map.json](skills-map.json). Edit those sources or skill frontmatter, then regenerate this section.
 
@@ -95,6 +95,14 @@ Creates repository-specific README.md files that act as landing pages, onboardin
 **Recommended when:**
 
 - README documentation is detected \(config files: README.md\)
+
+### [rezi](skills/rezi/SKILL.md)
+
+Build, extend, and troubleshoot Rezi TypeScript terminal user interfaces \(TUIs\). Use for @rezi-ui/core, @rezi-ui/node, create-rezi, ui.\* widget trees, screens, routing, keyboard/focus behavior, forms, tables, overlays, testing, native rendering, and Rezi framework contributions.
+
+**Recommended when:**
+
+- Rezi is detected \(npm packages: @rezi-ui/core, @rezi-ui/jsx, @rezi-ui/node, @rezi-ui/testkit, create-rezi\)
 
 ### [serena-usage](skills/serena-usage/SKILL.md)
 
